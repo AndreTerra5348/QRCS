@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI"
+             xmlns:converters="clr-namespace:QRCS.Converters"
+             xmlns:viewModel="clr-namespace:QRCS.ViewModels"
+             x:DataType="viewModel:ScanViewModel"
+             x:Class="QRCS.Pages.ScanPage">
+    
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            EventName="NavigatedTo"
+            Command="{Binding NavigatedToCommand}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BarcodeDetectionEventArgsConverter x:Key="BarcodeDetectionEventArgsConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Shell.TitleView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="QRCS" FontSize="Large" TextColor="White" VerticalOptions="Center" Grid.Column="0"/>
+            <Button Text="🔄️" FontSize="Large" Command="{Binding SwitchCameraCommand}" Grid.Column="1"/>
+            <Button Text="💡" FontSize="Large" Command="{Binding ToggleTorchCommand}" Grid.Column="2" />
+        </Grid>
+    </Shell.TitleView>          
+
+    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+        <zxing:CameraBarcodeReaderView
+                IsTorchOn="{Binding IsTorchOn }"
+                CameraLocation="{Binding CameraLocation}" 
+                IsDetecting="{Binding IsDetecting}">
+            <zxing:CameraBarcodeReaderView.Behaviors>
+                <toolkit:EventToCommandBehavior
+                            EventName="BarcodesDetected"
+                            Command="{Binding BarcodesDetectedCommand}" 
+                            EventArgsConverter="{StaticResource BarcodeDetectionEventArgsConverter}"
+                            />
+            </zxing:CameraBarcodeReaderView.Behaviors>
+        </zxing:CameraBarcodeReaderView>
+
+    </VerticalStackLayout>
+    
+</ContentPage>
