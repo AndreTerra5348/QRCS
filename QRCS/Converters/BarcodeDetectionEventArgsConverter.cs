@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Converters;
+using QRCS.Core.Models;
 using System.Globalization;
 using ZXing.Net.Maui;
 
@@ -10,7 +11,7 @@ public class BarcodeDetectionEventArgsConverter : BaseConverterOneWay<BarcodeDet
 
     public override object ConvertFrom(BarcodeDetectionEventArgs value, CultureInfo culture)
     {
-        return value.Results.First().Value;
+        return new Scan(DateTime.Now, value.Results.First().Value);
     }
 }
 

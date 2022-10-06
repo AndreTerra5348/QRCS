@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:QRCS.ViewModels"
+             xmlns:models="clr-namespace:QRCS.Core.Models;assembly=QRCS.Core"
+             x:DataType="viewModels:HistoryViewModel"
+             x:Class="QRCS.Pages.HistoryPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            EventName="NavigatedTo"
+            Command="{Binding NavigatedToCommand}" />
+    </ContentPage.Behaviors>
+
+    <ListView ItemsSource="{Binding History}" 
+              SelectionMode="None"
+              HasUnevenRows="True">
+        
+        <ListView.Behaviors>
+            <toolkit:EventToCommandBehavior
+                EventName="ItemTapped"
+                Command="{Binding TapCommand}"
+                EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}"/>
+        </ListView.Behaviors>
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <SwipeView>
+                        <Grid x:DataType="models:Scan"
+                              Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Date}" FontSize="Large"/>
+                            <Label Text="{Binding Result}" Grid.Row="1" LineBreakMode="TailTruncation" FontSize="Small"/>
+                        </Grid>
+                    </SwipeView>                    
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+    
+</ContentPage>

@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModel="clr-namespace:QRCS.ViewModels"
-             x:DataType="viewModel:ResultViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"   
+             xmlns:viewModels="clr-namespace:QRCS.ViewModels"
+             x:DataType="viewModels:ResultViewModel"
              x:Class="QRCS.Pages.ResultPage">
 
     <Shell.TitleView>
-        <HorizontalStackLayout HorizontalOptions="End">
-            <Button Text="Open" Command="{Binding OpenResultCommand}"/>
-            <Button Text="Copy" Command="{Binding CopyResultCommand}"/>
-            <Button Text="Share" Command="{Binding ShareResultCommand}"/>
+        <HorizontalStackLayout HorizontalOptions="End" Padding="0, 0, 10, 0" Spacing="5">
+            <ImageButton 
+                Source="delete.png" 
+                Command="{Binding DeleteScanCommand}"
+                Style="{StaticResource IconButton}"/>
+            <ImageButton 
+                Source="open.png" 
+                Command="{Binding OpenResultCommand}"
+                Style="{StaticResource IconButton}"/>
+            <ImageButton 
+                Source="copy.png" 
+                Command="{Binding CopyResultCommand}"
+                Style="{StaticResource IconButton}"/>
+            <ImageButton 
+                Source="share.png" 
+                Command="{Binding ShareResultCommand}"
+                Style="{StaticResource IconButton}"/>
         </HorizontalStackLayout>
     </Shell.TitleView>
     
     <VerticalStackLayout VerticalOptions="Start" Padding="10">
         <Label 
-            Text="{Binding Result}"
-            FontSize="Medium"
-            />
+            Text="{Binding Scan.Result}"
+            FontSize="Medium"/>
     </VerticalStackLayout>
 </ContentPage>
